@@ -7,37 +7,36 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
-//	request.setAttribute("username", "admin");
-//	request.setAttribute("password", "password");
 
-//	String userName = request.getParameter("username");
-//	String password = request.getParameter("password");
-
-
-
-//	String message;
-//	switch (request.getAttribute("username").toString() && request.getAttribute("password").toString()) {
-//		case "admin", "password":
-//			request.getRequestDispatcher("profile.jsp").forward(request, response);
-//	}
+	if (request.getMethod().equalsIgnoreCase("POST")) {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		if(username != null && password != null) {
+			if (username.equalsIgnoreCase("admin") && password.equalsIgnoreCase("password"))
+				response.sendRedirect("profile.jsp");
+		}
+	}
 
 %>
 
 
 
 <html>
-<head>
-    <title>Login</title>
-</head>
+<jsp:include page="partials/head.jsp">
+	<jsp:param name="title" value="Login" />
+</jsp:include>
 <body>
 <h1>Login</h1>
 
-<%--<c:choose>--%>
-	<%--<c:when test = "${userName.equals}" />--%>
-	<%--<%request.getRequestDispatcher("profile.jsp").forward(request, response);%>--%>
-<%--</c:choose>--%>
-<form method="POST" action="">
+
+	<%--<c:if test = '${param.username.equals("admin") && param.password.equals("password")}'>--%>
+		<%--&lt;%&ndash;<c:redirect url="profile.jsp" />&ndash;%&gt;--%>
+		<%--<jsp:forward page="/profile.jsp" />--%>
+		<%--</c:if>--%>
+
+<form method="POST" action="login.jsp">
 
 	<label for="username">Username</label>
 	<input id="username" name="username" type="text">
