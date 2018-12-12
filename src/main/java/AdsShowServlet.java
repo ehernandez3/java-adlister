@@ -15,14 +15,14 @@ public class AdsShowServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		Ads AdsDao = DaoFactory.getAdsDao();
-		List<Ad> ads = AdsDao.all();
+		Ads adsDao = DaoFactory.getAdsDao();
+		List<Ad> ads = adsDao.all();
 		request.setAttribute("ads", ads);
 
 		//=========== OR
 
-//		Ads AdsDao = DaoFactory.getAdsDao();
-//		request.setAttribute("ads", AdsDao.all());
+//		Ads adsDao = DaoFactory.getAdsDao();
+//		request.setAttribute("ads", adsDao.all());
 
 
     	request.getRequestDispatcher("/ads/index.jsp").forward(request, response);
