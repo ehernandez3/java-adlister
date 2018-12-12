@@ -20,18 +20,6 @@ public class LoginServlet extends HttpServlet {
 //				req.getRequestDispatcher("profile.jsp").forward(req, res);
 
 
-
-
-//    	String userName = req.getParameter("username");
-//    	String password = req.getParameter("password");
-//
-//    	if(userName.equalsIgnoreCase("admin") && password.equalsIgnoreCase("password")) {
-//			res.sendRedirect("/profile");
-//
-//		} else {
-//    		res.sendRedirect("/login");
-//		}
-
     }
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
