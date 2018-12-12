@@ -13,12 +13,14 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        if (session.getAttribute("user") != null) {
+        if (session.getAttribute("user") == null) {
+            request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        } else {
             response.sendRedirect("/profile");
         }
 
 
-        request.getRequestDispatcher("/login.jsp").forward(request, response);
+
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -28,7 +30,7 @@ public class LoginServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 
         if (validAttempt) {
-        	session.setAttribute("user", true);
+        	session.setAttribute("user", username);
             response.sendRedirect("/profile");
         } else {
             response.sendRedirect("/login");
