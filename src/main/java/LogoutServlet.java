@@ -17,10 +17,12 @@ public class LogoutServlet extends HttpServlet {
 		if (session.getAttribute("user") != null) {
 			session.invalidate();
 		}
-			//====== OR
-		session.setAttribute("user", null);
+		response.sendRedirect("/login");
 
-		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+
+			//====== OR
+//		session.setAttribute("user", null);
+//		request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 
 
     }
