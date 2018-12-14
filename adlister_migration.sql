@@ -1,33 +1,32 @@
-DROP DATABASE IF EXISTS ad_lister_db;
-CREATE DATABASE ad_lister_db;
-USE ad_lister_db;
+
+USE adlister_db;
+
+DROP TABLE IF EXISTS ads;
+DROP TABLE IF EXISTS users;
+
 
 CREATE TABLE IF NOT EXISTS users(
-  id INT UNSIGNED AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  username VARCHAR(100),
-  email VARCHAR(200) UNIQUE NOT NULL,
-  password VARCHAR(100) NOT NULL
+  id INT UNSIGNED AUTO_INCREMENT,
+  username VARCHAR(100) NOT NULL UNIQUE,
+  email VARCHAR(200) NOT NULL UNIQUE,
+  password VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE IF NOT EXISTS ads(
-  id INT UNSIGNED NOT NULL  AUTO_INCREMENT,
-  user_id INT UNSIGNED NOT NULL,
+  id INT UNSIGNED AUTO_INCREMENT,
+  userId INT UNSIGNED NOT NULL,
   title VARCHAR(100) NOT NULL,
-  description VARCHAR(240) NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES users (id),
+  description VARCHAR(500) NOT NULL,
+  FOREIGN KEY (userId) REFERENCES users (id),
   PRIMARY KEY (id)
 );
 
+SELECT * FROM ads;
 
-CREATE TABLE IF NOT EXISTS category(
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  category VARCHAR(100) NOT NULL,
-  PRIMARY KEY (id)
-);
+GRANT ALL ON adlister_db.* TO 'bob'@'localhost';
 
-CREATE TABLE IF NOT EXISTS ads_category(
-  ad_id INT UNSIGNED NOT NULL,
-  category_id INT UNSIGNED NOT NULL,
-  FOREIGN KEY (ad_id) REFERENCES ads(id),
-  FOREIGN KEY (category_id) REFERENCES category (id)
-);
+insert into users (username, email, password)
+values ('user1', 'user1@email.com', 'password1')
+
+
