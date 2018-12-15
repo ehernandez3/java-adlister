@@ -38,7 +38,7 @@ public class MySQLAdsDao implements Ads {
             while(rs.next()) {
                 ads.add(new Ad(
                         rs.getLong("id"),
-                        rs.getLong("userId"),
+                        rs.getLong("user_id"),
                         rs.getString("title"),
                         rs.getString("description")
                 ));
