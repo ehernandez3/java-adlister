@@ -28,50 +28,50 @@ public class MySQLAdsDao implements Ads {
 
     @Override
     public List<Ad> all() {
-        Statement stmt = null;
+        List<Ad> ads = new ArrayList<>();
+        String sql = "SELECT * FROM ads"; // Moved sql code here
+
         try {
-            stmt = connection.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM ads");
-            return createAdsFromResults(rs);
+            PreparedStatement stmt = connection.prepareStatement(sql); // Passing sql code here
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next()) {
+                ads.add(new Ad(
+                        rs.getLong("id"),
+                        rs.getLong("userId"),
+                        rs.getString("title"),
+                        rs.getString("description")
+                ));
+            }
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving all ads.", e);
         }
+        return ads;
     }
 
     @Override
     public Long insert(Ad ad) {
+        long lastInsertedId = 0;
+        String sql = "INSERT INTO ads(userId, title, description) VALUES (?, ?, ?)"; // Moved sql code here
+
         try {
-            Statement stmt = connection.createStatement();
-            stmt.executeUpdate(createInsertQuery(ad), Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            stmt.setLong(1, ad.getUserId());
+            stmt.setString(2, ad.getTitle());
+            stmt.setString(3, ad.getDescription());
+            stmt.executeUpdate();
             ResultSet rs = stmt.getGeneratedKeys();
-            rs.next();
-            return rs.getLong(1);
+            if (rs.next()) {
+                lastInsertedId = rs.getLong(1);
+            }
         } catch (SQLException e) {
-            throw new RuntimeException("Error creating a new ad.", e);
+            e.printStackTrace();
         }
+        return lastInsertedId;
     }
 
-    private String createInsertQuery(Ad ad) {
-        return "INSERT INTO ads(user_id, title, description) VALUES "
-            + "(" + ad.getUserId() + ", "
-            + "'" + ad.getTitle() +"', "
-            + "'" + ad.getDescription() + "')";
-    }
 
-    private Ad extractAd(ResultSet rs) throws SQLException {
-        return new Ad(
-            rs.getLong("id"),
-            rs.getLong("user_id"),
-            rs.getString("title"),
-            rs.getString("description")
-        );
-    }
 
-    private List<Ad> createAdsFromResults(ResultSet rs) throws SQLException {
-        List<Ad> ads = new ArrayList<>();
-        while (rs.next()) {
-            ads.add(extractAd(rs));
-        }
-        return ads;
-    }
+
+
 }
