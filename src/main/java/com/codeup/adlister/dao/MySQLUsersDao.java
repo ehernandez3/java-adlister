@@ -10,6 +10,12 @@ import java.sql.*;
 public class MySQLUsersDao implements Users{
 	private Connection connection = null;
 
+//	public static void main(String[] args) {
+//		User user = DaoFactory.getUserDao().findByUsername("john");
+//		System.out.println(user.getUsername());
+//		System.out.println(user.getEmail());
+//	}
+
 	public MySQLUsersDao(Config config) {
 		try {
 			DriverManager.registerDriver(new Driver());
